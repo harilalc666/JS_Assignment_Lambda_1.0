@@ -20,5 +20,53 @@ Examples
  * @return {boolean}
  */
 export default function deepEqual(valueA, valueB) {
-    throw 'Not implemented!';
+  if (
+    valueA == null ||
+    typeof valueB == "number" ||
+    typeof valueA == "boolean"
+  ) {
+    return isDeepEqualPrimitive(valueA, valueB);
+  } else if (typeof valueA == "object" && typeof valueB == "object") {
+    return isDeepEqualObject(valueA, valueB);
+  } else if (Array.isArray(valueA) && Array.isArray(valueB)) {
+    return isDeepEqualArray(valueA, valueB);
   }
+}
+
+function isDeepEqualPrimitive(input1, input2) {
+  if (input1 == null && input2 == null) {
+    return true;
+  } else if (typeof input1 == typeof input2) {
+    return input1 == input2;
+  } else {
+    return false;
+  }
+}
+
+function isDeepEqualObject(obj1, obj2) {
+  const arr1 = Object.values(obj1);
+  const arr2 = Object.values(obj2);
+  if (arr1.length == arr2.length) {
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isDeepEqualArray(arr1, arr2) {
+  if (arr1.length == arr2.length) {
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
